@@ -1,47 +1,47 @@
 import React, { useEffect, useState } from "react";
-
+import './FromComponent.scss'
 export default function FormComponent() {
 
+    //state to store form data
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         message: ""
     })
 
+    //state to store local data
     const [storedData, setStoredData] = useState([])
 
     useEffect(() => {
+
         let localData = localStorage.getItem('formValues');
 
-        console.log("locaData", JSON.parse(localData));
-        let parsedData = JSON.parse(localData);
+        let parsedData = localData ? JSON.parse(localData) : [];
 
-setStoredData(parsedData)
+
+        setStoredData(parsedData)
 
     }, [])
 
+    /**
+     * 
+     * @param {*} e 
+     */
     const onSubmit = (e) => {
 
         e.preventDefault()
- console.log("dataValues",storedData);
+      
 
         let dataValues = []
 
-     
-        if(storedData && storedData.length){
-        dataValues.push(...storedData,formData)
-        
-        }else{
-             dataValues.push(storedData,formData)
-        }
-        console.log("dataValues",dataValues);
-        
+        let localData = localStorage.getItem('formValues');
 
+        let parsedData = localData ? JSON.parse(localData) : [];
+        dataValues.push(...parsedData, formData)
 
-        // console.log("formData", formData);
 
         localStorage.setItem("formValues", JSON.stringify(dataValues))
-        
+
 
         // setFormData({ name: "",
         // email: "",
